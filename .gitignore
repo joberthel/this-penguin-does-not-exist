@@ -1,4 +1,6 @@
 data/
 model/
-data.pickle
+tmp/
+*.pickle
 .vscode
+*.pyc

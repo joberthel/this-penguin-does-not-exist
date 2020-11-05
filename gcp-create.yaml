@@ -1,0 +1,5 @@
+trainingInput:
+  scaleTier: CUSTOM
+  masterType: n1-highmem-16
+  runtimeVersion: "2.2"
+  pythonVersion: "3.7"

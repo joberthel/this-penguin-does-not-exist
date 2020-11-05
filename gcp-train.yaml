@@ -1,0 +1,5 @@
+trainingInput:
+  scaleTier: CUSTOM
+  masterType: standard_p100
+  runtimeVersion: "2.2"
+  pythonVersion: "3.7"
