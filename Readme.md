@@ -33,5 +33,5 @@ gcloud ai-platform local train --module-name trainer.train --package-path ./pack
 
 ### Run on GCP
 ```
-gcloud ai-platform jobs submit training Train05 --module-name=trainer.train --package-path=./package/trainer --job-dir=gs://this-penguin-does-not-exist --config=gcp-train.yaml
+gcloud ai-platform jobs submit training Train12 --module-name=trainer.train --package-path=./package/trainer --job-dir=gs://this-penguin-does-not-exist --config=gcp-train.yaml
 ```

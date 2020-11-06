@@ -122,7 +122,7 @@ def train(g_model, d_model, gan_model, dataset, latent_dim, job_dir, n_epochs=10
             g_loss = gan_model.train_on_batch(X_gan, y_gan)
 
             # summarize loss on this batch
-            print('>%d, %d/%d, d1=%.3f, d2=%.3f g=%.3f' % (i+1, j+1, bat_per_epo, d_loss1, d_loss2, g_loss))
+            # print('>%d, %d/%d, d1=%.3f, d2=%.3f g=%.3f' % (i+1, j+1, bat_per_epo, d_loss1, d_loss2, g_loss))
         # evaluate the model performance, sometimes
         if (i+1) % 1 == 0:
             summarize_performance(i, g_model, d_model,
@@ -142,8 +142,8 @@ def summarize_performance(epoch, g_model, d_model, dataset, latent_dim, job_dir,
     print('>Accuracy real: %.0f%%, fake: %.0f%%' %
           (acc_real*100, acc_fake*100))
 
-    logs_path = job_dir + '/plots'
-    model_path = job_dir + '/models'
+    logs_path = job_dir + 'plots2'
+    model_path = job_dir + 'models2'
 
     # save plot
     save_plot(x_fake, epoch, logs_path)
@@ -180,7 +180,12 @@ def save_plot(examples, epoch, plots_path, n=7):
 def load_dataset(job_dir):
     dataset_parts = []
 
-    for pickle_file in tf.io.gfile.glob(job_dir + 'dataset/*.pickle'):
+    pickle_files = [
+        job_dir + 'dataset/DAMOa.pickle',
+        job_dir + 'dataset/HALFb.pickle'
+    ]
+
+    for pickle_file in pickle_files:
         with tf.io.gfile.GFile(pickle_file, mode='rb') as f:
             dataset_parts.append(pickle.load(f))
     
@@ -191,7 +196,7 @@ def main(job_dir, **args):
     strategy = tf.distribute.MirroredStrategy()
     print('Number of devices: {}'.format(strategy.num_replicas_in_sync))
 
-    latent_dim = 128
+    latent_dim = 100
     dim = 256
 
     dataset = load_dataset(job_dir)
