@@ -13,9 +13,9 @@ from multiprocessing.pool import Pool
 
 
 PADDING_X = 0
-PADDING_Y = 50
-PENGUIN_DIM = 300
-IMAGE_DIM = 256
+PADDING_Y = 40
+PENGUIN_DIM = 175
+IMAGE_DIM = 128
 
 progress = tqdm(total=16)
 
@@ -44,7 +44,7 @@ def read_file(json_filename, job_dir):
                     raw_image = Image.open(image_file)
                     width, height = raw_image.size
 
-                    for j in range(len(image_data['xy'][0])):
+                    for j in range(0, len(image_data['xy'][0]), 2):
                         xy = image_data['xy'][0][j]
                         if type(xy) is list and len(xy) == 2:
                             x, y = xy
@@ -60,6 +60,7 @@ def read_file(json_filename, job_dir):
 
                             penguin = raw_image.crop((left, top, right, bottom)).resize(
                                 (IMAGE_DIM, IMAGE_DIM), Image.LANCZOS)
+                            # penguin.show()
                             penguins.append(
                                 np.array(penguin, dtype=np.uint8))
 
@@ -75,11 +76,16 @@ def main(job_dir, **args):
     json_files = tf.io.gfile.glob(job_dir + '/CompleteAnnotations_2016-07-11/*.json')
     json_files.reverse()
 
-    pool = Pool(processes=4)
+    json_files = [
+        '..\\tmp\\dataset\\CompleteAnnotations_2016-07-11\\MAIVb.json'
+    ]
+
+    pool = Pool(processes=1)
 
     for json_file in json_files:
-        pool.apply_async(read_file, args=(
-            json_file, job_dir), callback=update_progress)
+        read_file(json_file, job_dir)
+        #pool.apply_async(read_file, args=(
+        #    json_file, job_dir), callback=update_progress)
 
     pool.close()
     pool.join()

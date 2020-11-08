@@ -28,7 +28,7 @@ gcloud ai-platform jobs submit training CreateDataset256_07 --module-name traine
 
 ### Run locally
 ```
-gcloud ai-platform local train --module-name trainer.train --package-path ./package/trainer -- --job-dir ../tmp
+gcloud ai-platform local train --module-name trainer.train --package-path ./package/trainer -- --job-dir ../tmp/
 ```
 
 ### Run on GCP

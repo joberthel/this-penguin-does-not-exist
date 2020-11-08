@@ -4,3 +4,5 @@ tmp/
 *.pickle
 .vscode
 *.pyc
+package/*.h5
+package/*.png

@@ -6,19 +6,22 @@ import argparse
 import pickle
 
 
+initialWeights = keras.initializers.RandomNormal(mean=0.0, stddev=0.02, seed=None)
+
+
 def define_discriminator(dim):
     in_shape = (dim, dim, 3)
 
     model = keras.models.Sequential()
     # normal
     model.add(keras.layers.Conv2D(
-        64, (3, 3), padding='same', input_shape=in_shape))
+        64, (3, 3), padding='same', input_shape=in_shape, kernel_initializer=initialWeights))
     model.add(keras.layers.LeakyReLU(alpha=0.2))
 
     while (dim > 4):
         # downsample
         model.add(keras.layers.Conv2D(
-            64, (3, 3), strides=(2, 2), padding='same'))
+            64, (3, 3), strides=(2, 2), padding='same', kernel_initializer=initialWeights))
         model.add(keras.layers.LeakyReLU(alpha=0.2))
         dim = dim / 2
 
@@ -44,7 +47,7 @@ def define_generator(latent_dim, dim):
     while (dim > 4):
         # upsample
         model.add(keras.layers.Conv2DTranspose(
-            128, (4, 4), strides=(2, 2), padding='same'))
+            128, (4, 4), strides=(2, 2), padding='same', activation='relu', kernel_initializer=initialWeights))
         model.add(keras.layers.LeakyReLU(alpha=0.2))
         dim = dim / 2
 
@@ -101,7 +104,7 @@ def train(g_model, d_model, gan_model, dataset, latent_dim, job_dir, n_epochs=10
     half_batch = int(n_batch / 2)
     # manually enumerate epochs
     for i in range(n_epochs):
-        print('%d/%d' % (i+1, n_epochs))
+        # print('%d/%d' % (i+1, n_epochs))
 
         # enumerate batches over the training set
         for j in range(bat_per_epo):
@@ -122,14 +125,14 @@ def train(g_model, d_model, gan_model, dataset, latent_dim, job_dir, n_epochs=10
             g_loss = gan_model.train_on_batch(X_gan, y_gan)
 
             # summarize loss on this batch
-            # print('>%d, %d/%d, d1=%.3f, d2=%.3f g=%.3f' % (i+1, j+1, bat_per_epo, d_loss1, d_loss2, g_loss))
+            print('>%d, %d/%d, d1=%.3f, d2=%.3f g=%.3f' % (i+1, j+1, bat_per_epo, d_loss1, d_loss2, g_loss))
         # evaluate the model performance, sometimes
-        if (i+1) % 1 == 0:
+        if (i+1) % 25 == 0:
             summarize_performance(i, g_model, d_model,
                                   dataset, latent_dim, job_dir)
 
 
-def summarize_performance(epoch, g_model, d_model, dataset, latent_dim, job_dir, n_samples=128):
+def summarize_performance(epoch, g_model, d_model, dataset, latent_dim, job_dir, n_samples=49):
     # prepare real samples
     X_real, y_real = generate_real_samples(dataset, n_samples)
     # evaluate discriminator on real examples
@@ -142,8 +145,8 @@ def summarize_performance(epoch, g_model, d_model, dataset, latent_dim, job_dir,
     print('>Accuracy real: %.0f%%, fake: %.0f%%' %
           (acc_real*100, acc_fake*100))
 
-    logs_path = job_dir + 'plots2'
-    model_path = job_dir + 'models2'
+    logs_path = job_dir + 'plots'
+    model_path = job_dir + 'models'
 
     # save plot
     save_plot(x_fake, epoch, logs_path)
@@ -181,15 +184,17 @@ def load_dataset(job_dir):
     dataset_parts = []
 
     pickle_files = [
-        job_dir + 'dataset/DAMOa.pickle',
-        job_dir + 'dataset/HALFb.pickle'
+        job_dir + 'dataset/MAIVb.pickle'
     ]
 
     for pickle_file in pickle_files:
         with tf.io.gfile.GFile(pickle_file, mode='rb') as f:
             dataset_parts.append(pickle.load(f))
     
-    return np.concatenate(dataset_parts)    
+    dataset = np.concatenate(dataset_parts)    
+    #dataset = np.array_split(dataset, 2)[0]
+
+    return dataset
 
 
 def main(job_dir, **args):
@@ -197,7 +202,7 @@ def main(job_dir, **args):
     print('Number of devices: {}'.format(strategy.num_replicas_in_sync))
 
     latent_dim = 100
-    dim = 256
+    dim = 128
 
     dataset = load_dataset(job_dir)
 
@@ -206,7 +211,7 @@ def main(job_dir, **args):
         g_model = define_generator(latent_dim, dim)
         gan_model = define_gan(g_model, d_model)
     
-    train(g_model, d_model, gan_model, dataset, latent_dim, job_dir, 1000, 64)
+        train(g_model, d_model, gan_model, dataset, latent_dim, job_dir, 999999, 128)
 
 
 if __name__ == "__main__":
