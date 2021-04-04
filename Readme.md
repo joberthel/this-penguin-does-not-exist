@@ -1,6 +1,8 @@
 # This penguin does not exist
 
+With the code in this repository you can train a neural network, which will create penguin images like in this example.
 
+![](example.png)
 
 ## Download images
 
@@ -11,8 +13,10 @@ gcloud ai-platform local train --module-name trainer.download --package-path ./p
 
 ### Run on GCP
 ```
-gcloud ai-platform jobs submit training DownloadDataset_01 --module-name trainer.download --package-path ./package/trainer --job-dir=gs://this-penguin-does-not-exist/dataset --config=gcp-download.yaml
+gcloud ai-platform jobs submit training DownloadImages --module-name trainer.download --package-path ./package/trainer --job-dir=gs://this-penguin-does-not-exist/dataset --config=gcp-download.yaml
 ```
+
+
 
 ## Create dataset
 
@@ -23,8 +27,10 @@ gcloud ai-platform local train --module-name trainer.create --package-path ./pac
 
 ### Run on GCP
 ```
-gcloud ai-platform jobs submit training CreateDataset256_07 --module-name trainer.create --package-path ./package/trainer --job-dir=gs://this-penguin-does-not-exist/dataset --config=gcp-create.yaml
+gcloud ai-platform jobs submit training CreateDataset --module-name trainer.create --package-path ./package/trainer --job-dir=gs://this-penguin-does-not-exist/dataset --config=gcp-create.yaml
 ```
+
+
 
 ## Train model
 
@@ -35,5 +41,6 @@ gcloud ai-platform local train --module-name trainer.train --package-path ./pack
 
 ### Run on GCP
 ```
-gcloud ai-platform jobs submit training Train4GPU --module-name=trainer.train --package-path=./package/trainer --job-dir=gs://this-penguin-does-not-exist --config=gcp-train.yaml
+gcloud ai-platform jobs submit training TrainModel --module-name=trainer.train --package-path=./package/trainer --job-dir=gs://this-penguin-does-not-exist --config=gcp-train.yaml
 ```
+
