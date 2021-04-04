@@ -3,7 +3,7 @@ trainingInput:
   masterType: n1-standard-8
   masterConfig:
     acceleratorConfig:
-      count: 4
+      count: 1
       type: NVIDIA_TESLA_P100
   runtimeVersion: "2.2"
   pythonVersion: "3.7"

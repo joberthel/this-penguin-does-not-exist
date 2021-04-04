@@ -11,22 +11,22 @@ from tensorflow.python.lib.io import file_io
 
 src_urls = [
     'https://www.robots.ox.ac.uk/~vgg/data/penguins/CompleteAnnotations_2016-07-11.tgz',
-    'https://www.robots.ox.ac.uk/~vgg/data/penguins/BAILa.tgz',
-    'https://www.robots.ox.ac.uk/~vgg/data/penguins/DAMOa.tgz',
-    'https://www.robots.ox.ac.uk/~vgg/data/penguins/GEORa.tgz',
-    'https://www.robots.ox.ac.uk/~vgg/data/penguins/HALFb.tgz',
-    'https://www.robots.ox.ac.uk/~vgg/data/penguins/HALFc.tgz',
-    'https://www.robots.ox.ac.uk/~vgg/data/penguins/LOCKb.tgz',
+   # 'https://www.robots.ox.ac.uk/~vgg/data/penguins/BAILa.tgz'
+   # 'https://www.robots.ox.ac.uk/~vgg/data/penguins/DAMOa.tgz',
+   # 'https://www.robots.ox.ac.uk/~vgg/data/penguins/GEORa.tgz',
+   # 'https://www.robots.ox.ac.uk/~vgg/data/penguins/HALFb.tgz',
+   # 'https://www.robots.ox.ac.uk/~vgg/data/penguins/HALFc.tgz',
+   # 'https://www.robots.ox.ac.uk/~vgg/data/penguins/LOCKb.tgz',
     'https://www.robots.ox.ac.uk/~vgg/data/penguins/MAIVb.tgz',
-    'https://www.robots.ox.ac.uk/~vgg/data/penguins/MAIVc.tgz',
-    'https://www.robots.ox.ac.uk/~vgg/data/penguins/NEKOa.tgz',
-    'https://www.robots.ox.ac.uk/~vgg/data/penguins/NEKOb.tgz',
-    'https://www.robots.ox.ac.uk/~vgg/data/penguins/NEKOc.tgz',
-    'https://www.robots.ox.ac.uk/~vgg/data/penguins/PETEc.tgz',
-    'https://www.robots.ox.ac.uk/~vgg/data/penguins/PETEd.tgz',
-    'https://www.robots.ox.ac.uk/~vgg/data/penguins/PETEe.tgz',
-    'https://www.robots.ox.ac.uk/~vgg/data/penguins/PETEf.tgz',
-    'https://www.robots.ox.ac.uk/~vgg/data/penguins/SPIGa.tgz'
+   # 'https://www.robots.ox.ac.uk/~vgg/data/penguins/MAIVc.tgz',
+   # 'https://www.robots.ox.ac.uk/~vgg/data/penguins/NEKOa.tgz',
+   # 'https://www.robots.ox.ac.uk/~vgg/data/penguins/NEKOb.tgz',
+   # 'https://www.robots.ox.ac.uk/~vgg/data/penguins/NEKOc.tgz',
+   # 'https://www.robots.ox.ac.uk/~vgg/data/penguins/PETEc.tgz',
+   # 'https://www.robots.ox.ac.uk/~vgg/data/penguins/PETEd.tgz',
+   # 'https://www.robots.ox.ac.uk/~vgg/data/penguins/PETEe.tgz',
+   # 'https://www.robots.ox.ac.uk/~vgg/data/penguins/PETEf.tgz',
+   # 'https://www.robots.ox.ac.uk/~vgg/data/penguins/SPIGa.tgz'
 ]
 
 progress = tqdm(total=len(src_urls))

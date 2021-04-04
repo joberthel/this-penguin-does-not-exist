@@ -184,7 +184,7 @@ def load_dataset(job_dir):
     dataset_parts = []
 
     pickle_files = [
-        job_dir + 'dataset/MAIVb.pickle'
+        job_dir + 'MAIVb.pickle'
     ]
 
     for pickle_file in pickle_files:
@@ -211,7 +211,7 @@ def main(job_dir, **args):
         g_model = define_generator(latent_dim, dim)
         gan_model = define_gan(g_model, d_model)
     
-        train(g_model, d_model, gan_model, dataset, latent_dim, job_dir, 999999, 128)
+    train(g_model, d_model, gan_model, dataset, latent_dim, job_dir, 999999, 256)
 
 
 if __name__ == "__main__":
